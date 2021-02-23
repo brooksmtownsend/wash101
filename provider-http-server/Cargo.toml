@@ -1,0 +1,39 @@
+[package]
+name = "wasmcloud-httpserver"
+version = "0.11.1"
+authors = ["wasmCloud Team"]
+edition = "2018"
+homepage = "https://wasmcloud.dev"
+repository = "https://github.com/wasmcloud/capability-providers"
+description = "HTTP Server capability provider for the wasmCloud host runtime"
+license = "Apache-2.0"
+documentation = "https://docs.rs/wasmcloud-httpserver"
+readme = "README.md"
+keywords = ["webassembly", "wasm", "wasi", "wasmcloud", "actix"]
+categories = ["wasm", "api-bindings"]
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[features]
+static_plugin = [] # Enable to statically compile this into a host
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+rmp-serde = "0.14.4"
+serde_bytes = "0.11.5"
+serde = {version = "1.0.117", features = ["derive"] }
+wascc-codec = "0.9.0"
+actix-web = "2.0.0"
+actix-rt = "1.1.1"
+actix-multipart = "0.2.0"
+futures = "0.3.5"
+log = "0.4.8"
+env_logger = "0.7.1"
+crossbeam-channel = "0.4.2"
+crossbeam = "0.7.3"
+crossbeam-utils = "^0.7.0"
+wasmcloud-actor-http-server = "0.1.0"
+wasmcloud-actor-core = "0.2.0"
