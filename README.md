@@ -7,20 +7,24 @@ Demo resources for the `wash 101` demo. This demo walks through all of the subco
 - `docker-compose`
 - `docker`
 - `wash`
+- `cargo`
+- `rustup target add wasm32-unknown-unknown`
+- `jq`
 
 ## Commands used
 ```shell
 ## Building and signing table tennis actor
 cd ./actor-table-tennis
+make release
 wash claims sign --help
 wash claims sign ./target/wasm32-unknown-unknown/release/table_tennis.wasm --name "Table Tennis" --http_server
 wash claims inspect ./target/wasm32-unknown-unknown/release/table_tennis_s.wasm
 wash keys gen --help
 TABLE_TENNIS_SUBJECT=$(wash keys gen module -o json | jq '.seed' | tr -d "\"")
+## For `fish` shell: set TABLE_TENNIS_SUBJECT (wash keys gen module -o json | jq '.seed' | tr -d "\"")
 wash claims sign ./target/wasm32-unknown-unknown/release/table_tennis.wasm --name "Table Tennis" --http_server --subject $TABLE_TENNIS_SUBJECT
 wash claims inspect ./target/wasm32-unknown-unknown/release/table_tennis_s.wasm
 wash keys list
-make release
 cp ./target/wasm32-unknown-unknown/release/table_tennis_s.wasm ../
 
 ## Building and signing httpserver provider
@@ -37,8 +41,8 @@ cp ./libwasmcloud_httpserver.par.gz ../
 cd ..
 docker-compose up -d 
 wash reg push --help
-wash reg push localhost:5000/tabletennis:0.1.0 ./table_tennis_s.wasm --insecure 
-wash reg push localhost:5000/httpserver:0.1.0 ./libwasmcloud_httpserver.par --insecure
+wash reg push localhost:5000/tabletennis:0.1.0 ./table_tennis_s.wasm --insecure
+wash reg push localhost:5000/httpserver:0.1.0 ./libwasmcloud_httpserver.par.gz --insecure
 wash reg pull localhost:5000/httpserver:0.1.0 --insecure
 diff httpserver.par.gz ./libwasmcloud_httpserver.par.gz
 
@@ -63,4 +67,3 @@ curl localhost:8080 -d "ping"
 rm *.par.gz *.wasm  
 docker-compose down
 ```
-
